@@ -17,7 +17,7 @@
         "Log failed extractions to failed_extractions.txt"
       ],
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "notes": "Week 1 deliverable. Expected ~1200 papers, ~900 train rows."
     },
     {
@@ -33,7 +33,7 @@
         "Max output: 2000 tokens (truncate if longer)"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": "Week 1 deliverable. Critical for both training data and live inference."
     },
     {
@@ -48,7 +48,7 @@
         "Document results in notebook 02_baseline_experiments.ipynb"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": "Week 2 deliverable. This is the 'floor' that SciBERT must beat."
     },
     {
@@ -65,7 +65,7 @@
         "Save checkpoint to models/scibert_finetuned/"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": "Week 2 deliverable. Core ML component."
     },
     {
@@ -79,7 +79,7 @@
         "Save to data/checklist/neurips_checklist.json"
       ],
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "notes": "Week 3 prerequisite for gap detection."
     },
     {
@@ -96,7 +96,7 @@
         "Target precision > 0.68 on manual eval (30 papers)"
       ],
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "notes": "Week 3 deliverable. Key differentiator feature."
     },
     {
@@ -113,7 +113,7 @@
         "Performance: ~6s for 20-sentence text on CPU"
       ],
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "notes": "Week 4 deliverable. Novel technical contribution."
     },
     {
@@ -128,7 +128,7 @@
         "Target cost: $0 (free tier), <2s per hint"
       ],
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "notes": "Week 4 deliverable. Turns detection into actionable repair."
     },
     {
