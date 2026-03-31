@@ -3,6 +3,7 @@ Reproducibility Classifier Module.
 Contains both baseline (TF-IDF + Logistic Regression) and SciBERT classifiers.
 """
 
+import os
 import pickle
 from pathlib import Path
 from typing import Optional
@@ -226,6 +227,9 @@ class ReproducibilityClassifier:
             train_df: Training data
             val_df: Validation data
             output_dir: Directory to save checkpoints
+            
+        Returns:
+            trainer: HuggingFace Trainer object for inspection
         """
         import torch
         from datasets import Dataset
@@ -233,6 +237,7 @@ class ReproducibilityClassifier:
             AutoModelForSequenceClassification,
             AutoTokenizer,
             DataCollatorWithPadding,
+            EarlyStoppingCallback,
             Trainer,
             TrainingArguments,
         )
@@ -240,11 +245,13 @@ class ReproducibilityClassifier:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"Training on: {self.device}")
         
-        # Load tokenizer and model
+        # Load tokenizer and model with increased dropout for small dataset
         self.tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
         self.model = AutoModelForSequenceClassification.from_pretrained(
             MODEL_NAME,
             num_labels=2,
+            hidden_dropout_prob=0.3,  # Increased for 22-sample dataset
+            attention_probs_dropout_prob=0.3,
         ).to(self.device)
         
         # Compute class weights
@@ -289,25 +296,35 @@ class ReproducibilityClassifier:
                 "f1": f1_score(labels, predictions, average="macro"),
             }
         
-        # Training arguments
+        # Check for W&B
+        use_wandb = bool(os.environ.get("WANDB_API_KEY"))
+        if use_wandb:
+            print("W&B logging enabled")
+        
+        # Training arguments with frequent eval for tiny dataset
         training_args = TrainingArguments(
             output_dir=output_dir,
             num_train_epochs=EPOCHS,
-            per_device_train_batch_size=BATCH_SIZE,
+            per_device_train_batch_size=4,  # Smaller for CPU
             per_device_eval_batch_size=BATCH_SIZE,
+            gradient_accumulation_steps=2,  # Effective batch=8
             warmup_ratio=WARMUP_RATIO,
             weight_decay=WEIGHT_DECAY,
             learning_rate=LEARNING_RATE,
-            evaluation_strategy="epoch",
-            save_strategy="epoch",
+            eval_strategy="steps",  # Frequent eval for tiny dataset
+            eval_steps=5,
+            save_strategy="steps",
+            save_steps=5,
             load_best_model_at_end=True,
             metric_for_best_model="auroc",
+            greater_is_better=True,
             logging_dir=f"{output_dir}/logs",
-            logging_steps=10,
-            report_to="none",  # Disable W&B for now
+            logging_steps=5,
+            report_to="wandb" if use_wandb else "none",
+            run_name="scibert-reproducibility" if use_wandb else None,
         )
         
-        # Trainer
+        # Trainer with early stopping
         trainer = Trainer(
             model=self.model,
             args=training_args,
@@ -315,6 +332,7 @@ class ReproducibilityClassifier:
             eval_dataset=val_dataset,
             data_collator=data_collator,
             compute_metrics=compute_metrics,
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
         )
         
         # Train
@@ -326,43 +344,89 @@ class ReproducibilityClassifier:
         
         self._loaded = True
         print(f"Model saved to {output_dir}")
-    
-    def predict(self, text: str) -> dict:
-        """
-        Predict reproducibility for a single text.
         
-        Args:
-            text: Methods section text
-            
-        Returns:
-            Dictionary with score, label, confidence, logits
+        return trainer
+    
+    def _sliding_window_predict(self, text: str) -> dict:
+        """
+        Predict using sliding window for long texts.
+        Window: 512 tokens, Stride: 448 (64 overlap per CONTEXT.md)
         """
         import torch
         
-        self._lazy_load()
-        
-        # Handle long texts with sliding window
-        inputs = self.tokenizer(
+        # Tokenize with overflow handling
+        encoding = self.tokenizer(
             text,
-            return_tensors="pt",
-            truncation=True,
+            return_overflowing_tokens=True,
             max_length=MAX_LENGTH,
+            stride=MAX_LENGTH - 64,  # 512 - 64 = 448 stride
+            truncation=True,
             padding=True,
-        ).to(self.device)
+            return_tensors="pt",
+        )
         
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            logits = outputs.logits.cpu().numpy()[0]
+        num_windows = encoding["input_ids"].shape[0]
         
-        probs = torch.softmax(torch.tensor(logits), dim=-1).numpy()
+        # Single window - use standard path
+        if num_windows == 1:
+            inputs = {
+                "input_ids": encoding["input_ids"].to(self.device),
+                "attention_mask": encoding["attention_mask"].to(self.device),
+            }
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                logits = outputs.logits.cpu().numpy()[0]
+            
+            probs = torch.softmax(torch.tensor(logits), dim=-1).numpy()
+            label = int(probs[1] >= 0.5)
+            
+            return {
+                "score": float(probs[1]),
+                "label": label,
+                "confidence": float(max(probs)),
+                "logits": logits.tolist(),
+                "num_windows": 1,
+            }
+        
+        # Multiple windows - aggregate via mean pooling
+        all_logits = []
+        for i in range(num_windows):
+            inputs = {
+                "input_ids": encoding["input_ids"][i:i+1].to(self.device),
+                "attention_mask": encoding["attention_mask"][i:i+1].to(self.device),
+            }
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                all_logits.append(outputs.logits.cpu())
+        
+        # Mean pool across windows
+        stacked = torch.cat(all_logits, dim=0)
+        mean_logits = stacked.mean(dim=0)
+        
+        probs = torch.softmax(mean_logits, dim=-1).numpy()
         label = int(probs[1] >= 0.5)
         
         return {
             "score": float(probs[1]),
             "label": label,
             "confidence": float(max(probs)),
-            "logits": logits.tolist(),
+            "logits": mean_logits.tolist(),
+            "num_windows": num_windows,
         }
+    
+    def predict(self, text: str) -> dict:
+        """
+        Predict reproducibility for a single text.
+        Uses sliding window for texts >512 tokens.
+        
+        Args:
+            text: Methods section text
+            
+        Returns:
+            Dictionary with score, label, confidence, logits, num_windows
+        """
+        self._lazy_load()
+        return self._sliding_window_predict(text)
     
     def predict_batch(self, texts: list[str]) -> list[dict]:
         """Batch prediction."""
