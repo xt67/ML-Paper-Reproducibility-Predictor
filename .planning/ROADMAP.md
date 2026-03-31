@@ -18,6 +18,15 @@
 | US-004 | SciBERT Classifier Training | 🔲 Pending | ~2h (needs GPU) |
 | US-007 | SHAP Explainability Module | 🔲 Pending | ~1.5h |
 
+**Plans:** 3 plans in 3 waves
+
+Plans:
+- [ ] 01-01-PLAN.md — SciBERT classifier training with sliding window
+- [ ] 01-02-PLAN.md — SHAP explainability module with caching
+- [ ] 01-03-PLAN.md — Integration tests and full pipeline verification
+
+**Requirements:** FR-001, FR-003, US-004, US-007
+
 **Dependencies:**
 - US-004 requires trained model for US-007
 
