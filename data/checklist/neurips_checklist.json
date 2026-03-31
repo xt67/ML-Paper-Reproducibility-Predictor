@@ -1,0 +1,303 @@
+[
+  {
+    "id": 1,
+    "category": "claims",
+    "item": "The main claims made in the abstract and introduction accurately reflect the paper's contributions and scope.",
+    "severity": "high",
+    "keywords": ["claims", "contributions", "scope", "abstract"]
+  },
+  {
+    "id": 2,
+    "category": "claims",
+    "item": "All claims are supported by theoretical analysis or experimental evidence presented in the paper.",
+    "severity": "high",
+    "keywords": ["claims", "evidence", "theoretical", "experimental", "proof"]
+  },
+  {
+    "id": 3,
+    "category": "limitations",
+    "item": "The paper discusses the limitations of the work performed.",
+    "severity": "low",
+    "keywords": ["limitations", "constraints", "drawbacks", "weaknesses"]
+  },
+  {
+    "id": 4,
+    "category": "limitations",
+    "item": "The paper discusses potential negative societal impacts of the work performed.",
+    "severity": "low",
+    "keywords": ["societal", "impact", "ethical", "negative", "harm"]
+  },
+  {
+    "id": 5,
+    "category": "theory",
+    "item": "All assumptions made in theoretical analysis are clearly stated.",
+    "severity": "high",
+    "keywords": ["assumptions", "theoretical", "analysis", "stated"]
+  },
+  {
+    "id": 6,
+    "category": "theory",
+    "item": "Complete proofs of all theoretical results are included in the paper or supplementary materials.",
+    "severity": "medium",
+    "keywords": ["proofs", "theoretical", "supplementary", "appendix"]
+  },
+  {
+    "id": 7,
+    "category": "experiments",
+    "item": "The paper specifies all the training and test details necessary to understand the results.",
+    "severity": "high",
+    "keywords": ["training", "test", "details", "understand"]
+  },
+  {
+    "id": 8,
+    "category": "experiments",
+    "item": "The paper reports error bars or confidence intervals for all experimental results.",
+    "severity": "medium",
+    "keywords": ["error bars", "confidence intervals", "variance", "standard deviation"]
+  },
+  {
+    "id": 9,
+    "category": "experiments",
+    "item": "The paper specifies the number of runs or trials for each experiment.",
+    "severity": "medium",
+    "keywords": ["runs", "trials", "repetitions", "experiments"]
+  },
+  {
+    "id": 10,
+    "category": "experiments",
+    "item": "The paper specifies all hyperparameters used, including learning rate, batch size, and optimizer settings.",
+    "severity": "high",
+    "keywords": ["hyperparameters", "learning rate", "batch size", "optimizer", "momentum", "weight decay"]
+  },
+  {
+    "id": 11,
+    "category": "experiments",
+    "item": "The paper specifies the random seeds used for initialization and data shuffling.",
+    "severity": "high",
+    "keywords": ["random seed", "seed", "initialization", "reproducibility"]
+  },
+  {
+    "id": 12,
+    "category": "experiments",
+    "item": "The paper specifies the exact number of training epochs or iterations.",
+    "severity": "high",
+    "keywords": ["epochs", "iterations", "training steps", "convergence"]
+  },
+  {
+    "id": 13,
+    "category": "experiments",
+    "item": "The paper specifies the early stopping criteria if used.",
+    "severity": "medium",
+    "keywords": ["early stopping", "patience", "validation loss", "convergence"]
+  },
+  {
+    "id": 14,
+    "category": "experiments",
+    "item": "The paper specifies the learning rate schedule or decay strategy.",
+    "severity": "high",
+    "keywords": ["learning rate schedule", "decay", "warmup", "cosine", "step"]
+  },
+  {
+    "id": 15,
+    "category": "experiments",
+    "item": "The paper specifies the regularization techniques used (dropout, weight decay, etc.).",
+    "severity": "medium",
+    "keywords": ["regularization", "dropout", "weight decay", "L2", "L1"]
+  },
+  {
+    "id": 16,
+    "category": "experiments",
+    "item": "The paper specifies the data augmentation techniques used if any.",
+    "severity": "medium",
+    "keywords": ["data augmentation", "augmentation", "transform", "preprocessing"]
+  },
+  {
+    "id": 17,
+    "category": "data",
+    "item": "The paper specifies the exact dataset name and version used.",
+    "severity": "high",
+    "keywords": ["dataset", "name", "version", "benchmark"]
+  },
+  {
+    "id": 18,
+    "category": "data",
+    "item": "The paper specifies the dataset split ratios for train, validation, and test sets.",
+    "severity": "high",
+    "keywords": ["split", "train", "validation", "test", "ratio", "partition"]
+  },
+  {
+    "id": 19,
+    "category": "data",
+    "item": "The paper specifies how the data was preprocessed or normalized.",
+    "severity": "medium",
+    "keywords": ["preprocessing", "normalization", "standardization", "cleaning"]
+  },
+  {
+    "id": 20,
+    "category": "data",
+    "item": "The paper specifies the total number of samples in each dataset split.",
+    "severity": "medium",
+    "keywords": ["samples", "size", "instances", "examples", "total"]
+  },
+  {
+    "id": 21,
+    "category": "data",
+    "item": "The paper provides statistics about the class distribution or label balance.",
+    "severity": "medium",
+    "keywords": ["class distribution", "balance", "imbalance", "label", "frequency"]
+  },
+  {
+    "id": 22,
+    "category": "model",
+    "item": "The paper provides a complete description of the model architecture.",
+    "severity": "high",
+    "keywords": ["architecture", "model", "layers", "structure", "design"]
+  },
+  {
+    "id": 23,
+    "category": "model",
+    "item": "The paper specifies the number of parameters in the model.",
+    "severity": "medium",
+    "keywords": ["parameters", "size", "million", "billion"]
+  },
+  {
+    "id": 24,
+    "category": "model",
+    "item": "The paper specifies the activation functions used.",
+    "severity": "medium",
+    "keywords": ["activation", "ReLU", "GELU", "sigmoid", "tanh"]
+  },
+  {
+    "id": 25,
+    "category": "model",
+    "item": "The paper specifies the loss function used for training.",
+    "severity": "high",
+    "keywords": ["loss function", "objective", "cross-entropy", "MSE", "loss"]
+  },
+  {
+    "id": 26,
+    "category": "model",
+    "item": "The paper specifies the weight initialization method.",
+    "severity": "medium",
+    "keywords": ["initialization", "weights", "Xavier", "Kaiming", "random"]
+  },
+  {
+    "id": 27,
+    "category": "compute",
+    "item": "The paper specifies the type of compute resources used (GPU model, CPU specs).",
+    "severity": "medium",
+    "keywords": ["GPU", "CPU", "hardware", "compute", "resources", "TPU"]
+  },
+  {
+    "id": 28,
+    "category": "compute",
+    "item": "The paper specifies the total training time or wall-clock time.",
+    "severity": "medium",
+    "keywords": ["training time", "hours", "days", "wall-clock", "runtime"]
+  },
+  {
+    "id": 29,
+    "category": "compute",
+    "item": "The paper specifies the memory requirements (GPU memory, RAM).",
+    "severity": "low",
+    "keywords": ["memory", "GPU memory", "RAM", "VRAM"]
+  },
+  {
+    "id": 30,
+    "category": "compute",
+    "item": "The paper specifies the deep learning framework and version used.",
+    "severity": "medium",
+    "keywords": ["framework", "PyTorch", "TensorFlow", "version", "library"]
+  },
+  {
+    "id": 31,
+    "category": "evaluation",
+    "item": "The paper specifies all evaluation metrics used and how they are computed.",
+    "severity": "high",
+    "keywords": ["metrics", "evaluation", "accuracy", "F1", "precision", "recall", "AUROC"]
+  },
+  {
+    "id": 32,
+    "category": "evaluation",
+    "item": "The paper compares against relevant baseline methods.",
+    "severity": "high",
+    "keywords": ["baseline", "comparison", "benchmark", "prior work"]
+  },
+  {
+    "id": 33,
+    "category": "evaluation",
+    "item": "The paper uses the same evaluation protocol as prior work for fair comparison.",
+    "severity": "medium",
+    "keywords": ["evaluation protocol", "fair comparison", "standard", "benchmark"]
+  },
+  {
+    "id": 34,
+    "category": "evaluation",
+    "item": "The paper reports results on standard benchmark datasets.",
+    "severity": "medium",
+    "keywords": ["benchmark", "standard", "dataset", "ImageNet", "GLUE"]
+  },
+  {
+    "id": 35,
+    "category": "code",
+    "item": "The paper provides access to the source code.",
+    "severity": "high",
+    "keywords": ["code", "source code", "GitHub", "repository", "implementation"]
+  },
+  {
+    "id": 36,
+    "category": "code",
+    "item": "The paper provides documentation or instructions for running the code.",
+    "severity": "medium",
+    "keywords": ["documentation", "instructions", "README", "tutorial"]
+  },
+  {
+    "id": 37,
+    "category": "code",
+    "item": "The paper specifies the software dependencies and versions required.",
+    "severity": "medium",
+    "keywords": ["dependencies", "requirements", "versions", "packages"]
+  },
+  {
+    "id": 38,
+    "category": "code",
+    "item": "The paper provides pre-trained model weights or checkpoints.",
+    "severity": "medium",
+    "keywords": ["pre-trained", "weights", "checkpoint", "model download"]
+  },
+  {
+    "id": 39,
+    "category": "data",
+    "item": "The paper provides access to the dataset or explains how to obtain it.",
+    "severity": "high",
+    "keywords": ["dataset", "download", "access", "available", "obtain"]
+  },
+  {
+    "id": 40,
+    "category": "experiments",
+    "item": "The paper describes how hyperparameters were selected or tuned.",
+    "severity": "medium",
+    "keywords": ["hyperparameter tuning", "grid search", "selection", "optimization"]
+  },
+  {
+    "id": 41,
+    "category": "experiments",
+    "item": "The paper specifies the validation set used for model selection.",
+    "severity": "medium",
+    "keywords": ["validation", "model selection", "held-out", "development"]
+  },
+  {
+    "id": 42,
+    "category": "experiments",
+    "item": "The paper reports whether the best model was selected based on validation performance.",
+    "severity": "medium",
+    "keywords": ["best model", "selection", "validation", "checkpoint"]
+  },
+  {
+    "id": 43,
+    "category": "reproducibility",
+    "item": "The paper includes pseudocode or algorithm descriptions for key methods.",
+    "severity": "high",
+    "keywords": ["pseudocode", "algorithm", "procedure", "steps"]
+  }
+]

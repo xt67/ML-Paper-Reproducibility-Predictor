@@ -1,0 +1,182 @@
+[
+  {
+    "arxiv_id": "1706.03762",
+    "title": "Attention Is All You Need",
+    "label": 1,
+    "paper_id": "sample_0000"
+  },
+  {
+    "arxiv_id": "1810.04805",
+    "title": "BERT: Pre-training of Deep Bidirectional Transformers",
+    "label": 1,
+    "paper_id": "sample_0001"
+  },
+  {
+    "arxiv_id": "1512.03385",
+    "title": "Deep Residual Learning for Image Recognition",
+    "label": 1,
+    "paper_id": "sample_0002"
+  },
+  {
+    "arxiv_id": "1409.1556",
+    "title": "Very Deep Convolutional Networks for Large-Scale Image Recognition",
+    "label": 1,
+    "paper_id": "sample_0003"
+  },
+  {
+    "arxiv_id": "1406.2661",
+    "title": "Generative Adversarial Networks",
+    "label": 1,
+    "paper_id": "sample_0004"
+  },
+  {
+    "arxiv_id": "1502.03167",
+    "title": "Batch Normalization",
+    "label": 1,
+    "paper_id": "sample_0005"
+  },
+  {
+    "arxiv_id": "1412.6980",
+    "title": "Adam: A Method for Stochastic Optimization",
+    "label": 1,
+    "paper_id": "sample_0006"
+  },
+  {
+    "arxiv_id": "1607.06450",
+    "title": "Layer Normalization",
+    "label": 1,
+    "paper_id": "sample_0007"
+  },
+  {
+    "arxiv_id": "1711.05101",
+    "title": "Neural Text Generation: A Practical Guide",
+    "label": 1,
+    "paper_id": "sample_0008"
+  },
+  {
+    "arxiv_id": "1609.04836",
+    "title": "WaveNet: A Generative Model for Raw Audio",
+    "label": 1,
+    "paper_id": "sample_0009"
+  },
+  {
+    "arxiv_id": "1708.02002",
+    "title": "Focal Loss for Dense Object Detection",
+    "label": 1,
+    "paper_id": "sample_0010"
+  },
+  {
+    "arxiv_id": "1801.07698",
+    "title": "Group Normalization",
+    "label": 1,
+    "paper_id": "sample_0011"
+  },
+  {
+    "arxiv_id": "1903.12136",
+    "title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "label": 1,
+    "paper_id": "sample_0012"
+  },
+  {
+    "arxiv_id": "1910.10683",
+    "title": "Exploring the Limits of Transfer Learning with T5",
+    "label": 1,
+    "paper_id": "sample_0013"
+  },
+  {
+    "arxiv_id": "2005.14165",
+    "title": "Language Models are Few-Shot Learners (GPT-3)",
+    "label": 1,
+    "paper_id": "sample_0014"
+  },
+  {
+    "arxiv_id": "1301.3781",
+    "title": "Efficient Estimation of Word Representations in Vector Space",
+    "label": 0,
+    "paper_id": "sample_0015"
+  },
+  {
+    "arxiv_id": "1411.4389",
+    "title": "Conditional Image Generation with PixelCNN Decoders",
+    "label": 0,
+    "paper_id": "sample_0016"
+  },
+  {
+    "arxiv_id": "1505.00387",
+    "title": "Delving Deep into Rectifiers",
+    "label": 0,
+    "paper_id": "sample_0017"
+  },
+  {
+    "arxiv_id": "1511.06434",
+    "title": "Unsupervised Representation Learning with DCGANs",
+    "label": 0,
+    "paper_id": "sample_0018"
+  },
+  {
+    "arxiv_id": "1602.07261",
+    "title": "Sentence Embeddings using Siamese BERT-Networks",
+    "label": 0,
+    "paper_id": "sample_0019"
+  },
+  {
+    "arxiv_id": "1703.10593",
+    "title": "Unpaired Image-to-Image Translation using Cycle-Consistent GANs",
+    "label": 0,
+    "paper_id": "sample_0020"
+  },
+  {
+    "arxiv_id": "1704.04861",
+    "title": "MobileNets: Efficient CNNs for Mobile Vision Applications",
+    "label": 0,
+    "paper_id": "sample_0021"
+  },
+  {
+    "arxiv_id": "1706.02677",
+    "title": "Accurate, Large Minibatch SGD",
+    "label": 0,
+    "paper_id": "sample_0022"
+  },
+  {
+    "arxiv_id": "1707.06347",
+    "title": "Proximal Policy Optimization Algorithms",
+    "label": 0,
+    "paper_id": "sample_0023"
+  },
+  {
+    "arxiv_id": "1712.01815",
+    "title": "The Case for Learned Index Structures",
+    "label": 0,
+    "paper_id": "sample_0024"
+  },
+  {
+    "arxiv_id": "1802.05365",
+    "title": "Deep Contextualized Word Representations (ELMo)",
+    "label": 0,
+    "paper_id": "sample_0025"
+  },
+  {
+    "arxiv_id": "1806.01261",
+    "title": "Universal Language Model Fine-tuning (ULMFiT)",
+    "label": 0,
+    "paper_id": "sample_0026"
+  },
+  {
+    "arxiv_id": "1907.11692",
+    "title": "XLNet: Generalized Autoregressive Pretraining",
+    "label": 0,
+    "paper_id": "sample_0027"
+  },
+  {
+    "arxiv_id": "1909.11556",
+    "title": "ELECTRA: Pre-training Text Encoders",
+    "label": 0,
+    "paper_id": "sample_0028"
+  },
+  {
+    "arxiv_id": "2001.08361",
+    "title": "Scaling Laws for Neural Language Models",
+    "label": 0,
+    "paper_id": "sample_0029"
+  }
+]

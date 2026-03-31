@@ -1,0 +1,198 @@
+{
+  "project": "ML Paper Reproducibility Predictor",
+  "branchName": "ralph/reproducibility-predictor",
+  "description": "Web tool that analyzes ML paper methods sections and outputs reproducibility scores, gap reports, SHAP-based evidence highlights, and fix hints",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Data Pipeline Setup",
+      "description": "As a developer, I need to create the data pipeline to download, process, and split the Papers With Code dataset for model training.",
+      "acceptanceCriteria": [
+        "Download Papers With Code reproducibility annotations (papers-with-abstracts.json.gz)",
+        "Fetch PDFs from arXiv API for each paper",
+        "Extract methods section from PDFs using regex-based section detection",
+        "Clean text (remove LaTeX, URLs, normalize whitespace)",
+        "Stratified split: 75% train, 12.5% val, 12.5% test",
+        "Save as Parquet files in data/processed/",
+        "Log failed extractions to failed_extractions.txt"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Week 1 deliverable. Expected ~1200 papers, ~900 train rows."
+    },
+    {
+      "id": "US-002",
+      "title": "PDF Extractor Module",
+      "description": "As a developer, I need a module to extract the methods/methodology section from ML paper PDFs.",
+      "acceptanceCriteria": [
+        "Use PyMuPDF (fitz) to extract full text preserving paragraph structure",
+        "Detect methods section using regex patterns for section headers",
+        "Find section boundaries using END_MARKERS (results, experiments, conclusion, etc.)",
+        "Fallback to first 2000 chars if no methods section found",
+        "Support extraction from URL for live API input",
+        "Max output: 2000 tokens (truncate if longer)"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Week 1 deliverable. Critical for both training data and live inference."
+    },
+    {
+      "id": "US-003",
+      "title": "Baseline Classifier (TF-IDF + LR)",
+      "description": "As a developer, I need a baseline model to establish the performance floor before fine-tuning SciBERT.",
+      "acceptanceCriteria": [
+        "Implement TF-IDF vectorization + Logistic Regression",
+        "Train on methods section text",
+        "Evaluate AUROC, F1, precision, recall on test set",
+        "Expected baseline AUROC: 0.65-0.72",
+        "Document results in notebook 02_baseline_experiments.ipynb"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Week 2 deliverable. This is the 'floor' that SciBERT must beat."
+    },
+    {
+      "id": "US-004",
+      "title": "SciBERT Classifier Module",
+      "description": "As a developer, I need to fine-tune SciBERT for binary reproducibility classification.",
+      "acceptanceCriteria": [
+        "Load allenai/scibert_scivocab_uncased from HuggingFace",
+        "Fine-tune with HuggingFace Trainer API (5 epochs, lr=2e-5)",
+        "Handle long texts with sliding window (512 tokens, 64 overlap)",
+        "Return score (0-1), label, confidence, logits",
+        "Log training to Weights & Biases",
+        "Target AUROC > 0.78 (must beat baseline by >5 points)",
+        "Save checkpoint to models/scibert_finetuned/"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Week 2 deliverable. Core ML component."
+    },
+    {
+      "id": "US-005",
+      "title": "NeurIPS Checklist JSON",
+      "description": "As a developer, I need to create the checklist JSON with 43 items for gap detection.",
+      "acceptanceCriteria": [
+        "Transcribe all 43 NeurIPS reproducibility checklist items",
+        "Format: id, category, item, severity, keywords",
+        "Severity levels: high (seeds, hyperparams), medium (hardware), low (limitations)",
+        "Save to data/checklist/neurips_checklist.json"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "Week 3 prerequisite for gap detection."
+    },
+    {
+      "id": "US-006",
+      "title": "Gap Detector Module",
+      "description": "As a user, I want to see which reproducibility checklist items are missing from a paper.",
+      "acceptanceCriteria": [
+        "Load sentence-transformers/all-MiniLM-L6-v2 model",
+        "Split methods text into sentences with nltk.sent_tokenize()",
+        "Compute cosine similarity between sentences and checklist items",
+        "Flag items as MISSING if max_similarity < 0.35 threshold",
+        "Return status, similarity_score, best_matching_sentence per item",
+        "Generate summary with coverage_score and missing counts by severity",
+        "Target precision > 0.68 on manual eval (30 papers)"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Week 3 deliverable. Key differentiator feature."
+    },
+    {
+      "id": "US-007",
+      "title": "SHAP Explainability Module",
+      "description": "As a user, I want to see which sentences drove the reproducibility score.",
+      "acceptanceCriteria": [
+        "Implement ablation-based SHAP approximation for sentence attribution",
+        "Compute SHAP value per sentence by masking and comparing predictions",
+        "Normalize scores to [-1, 1] range",
+        "Return top 5 most influential sentences with rank and normalized_score",
+        "Generate highlighted text with color coding (green/yellow/none)",
+        "Cache results by text hash to avoid re-computation",
+        "Performance: ~6s for 20-sentence text on CPU"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Week 4 deliverable. Novel technical contribution."
+    },
+    {
+      "id": "US-008",
+      "title": "Fix Hint Generator Module",
+      "description": "As a user, I want actionable suggestions to fix each detected gap.",
+      "acceptanceCriteria": [
+        "Call Mistral-7B-Instruct via HuggingFace Inference API (free tier)",
+        "Generate one-line fix hints per missing checklist item",
+        "Use structured prompt with gap item, severity, context",
+        "Graceful degradation if no API token (skip hints, tool still works)",
+        "Target cost: $0 (free tier), <2s per hint"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Week 4 deliverable. Turns detection into actionable repair."
+    },
+    {
+      "id": "US-009",
+      "title": "FastAPI Backend",
+      "description": "As a developer, I need a REST API to expose the ML pipeline.",
+      "acceptanceCriteria": [
+        "POST /analyze endpoint accepting PDF upload or arxiv URL",
+        "GET /health endpoint for status checks",
+        "Pydantic models for request/response validation",
+        "Return: score, label, confidence, gaps, explanations, hints",
+        "Response time < 30s for full pipeline",
+        "CORS enabled for frontend"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Week 5 deliverable. Backend infrastructure."
+    },
+    {
+      "id": "US-010",
+      "title": "Streamlit Frontend",
+      "description": "As a user, I want a web interface to upload papers and see results.",
+      "acceptanceCriteria": [
+        "File upload widget for PDF or URL input",
+        "Display reproducibility score with gauge visualization",
+        "Show gap report table sorted by severity",
+        "Highlight methods text with SHAP-based sentence coloring",
+        "Display fix hints per missing item",
+        "Responsive design, works on mobile",
+        "Loading spinner during analysis"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "Week 5 deliverable. User-facing interface."
+    },
+    {
+      "id": "US-011",
+      "title": "HuggingFace Spaces Deployment",
+      "description": "As a user, I want to access the tool online without local setup.",
+      "acceptanceCriteria": [
+        "Create Dockerfile for HF Spaces deployment",
+        "Deploy Streamlit app to HuggingFace Spaces (free tier)",
+        "App loads in < 60s cold start",
+        "Public URL accessible without login",
+        "Add README with demo screenshots"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": "Week 6 deliverable. Final deployment."
+    },
+    {
+      "id": "US-012",
+      "title": "Documentation and Publication Draft",
+      "description": "As a researcher, I want comprehensive documentation and a paper draft.",
+      "acceptanceCriteria": [
+        "Complete README with installation, usage, architecture diagram",
+        "API documentation for all endpoints",
+        "Write 4-page paper draft: intro, method, results, conclusion",
+        "Include baseline comparison table, SHAP examples, gap detection accuracy",
+        "Resume bullet: quantified metrics, tech stack, live URL"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": "Week 6 deliverable. Portfolio and publication."
+    }
+  ]
+}
