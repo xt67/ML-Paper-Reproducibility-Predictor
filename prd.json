@@ -144,7 +144,7 @@
         "CORS enabled for frontend"
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "notes": "Week 5 deliverable. Backend infrastructure."
     },
     {
