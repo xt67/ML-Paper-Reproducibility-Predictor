@@ -191,7 +191,7 @@
         "Resume bullet: quantified metrics, tech stack, live URL"
       ],
       "priority": 12,
-      "passes": false,
+      "passes": true,
       "notes": "Week 6 deliverable. Portfolio and publication."
     }
   ]
