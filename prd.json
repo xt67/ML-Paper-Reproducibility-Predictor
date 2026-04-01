@@ -161,7 +161,7 @@
         "Loading spinner during analysis"
       ],
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "notes": "Week 5 deliverable. User-facing interface."
     },
     {
