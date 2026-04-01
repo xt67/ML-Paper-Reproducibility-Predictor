@@ -1,0 +1,44 @@
+# Ignore Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Ignore local development files
+.env
+.env.local
+*.log
+
+# Ignore cache directories (will be created at runtime)
+.cache/
+
+# Ignore test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ignore notebooks checkpoints
+.ipynb_checkpoints/
+
+# Ignore model checkpoints (too large for HF Spaces free tier)
+models/scibert_finetuned/
+models/baseline/
+
+# Ignore planning files
+.planning/
+
+# Ignore large data files
+data/raw/
+data/processed/*.parquet
+*.pdf
