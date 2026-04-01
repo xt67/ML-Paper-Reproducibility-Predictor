@@ -1,0 +1,28 @@
+{
+  "baseline_score": 0.5105407238006592,
+  "sentences": [
+    {
+      "index": 0,
+      "sentence": "We used Adam optimizer with lr=0.001 and random seed 42.",
+      "attribution": 0.01054072380065918,
+      "normalized_score": 1.0,
+      "rank": 1
+    }
+  ],
+  "all_attributions": [
+    {
+      "index": 0,
+      "sentence": "We used Adam optimizer with lr=0.001 and random seed 42.",
+      "attribution": 0.01054072380065918,
+      "normalized_score": 1.0,
+      "rank": 1
+    }
+  ],
+  "highlighted_text": [
+    {
+      "text": "We used Adam optimizer with lr=0.001 and random seed 42.",
+      "color": "green",
+      "score": 1.0
+    }
+  ]
+}
