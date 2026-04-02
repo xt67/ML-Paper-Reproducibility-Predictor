@@ -5,17 +5,28 @@ A web interface to analyze ML papers for reproducibility.
 """
 
 import sys
+import os
 from pathlib import Path
 
-# Download NLTK data before importing modules that need it
+# Download ALL NLTK data before importing modules that need it
 import nltk
-nltk.download('punkt', quiet=True)
-nltk.download('punkt_tab', quiet=True)
+
+# Set NLTK data path to a writable location
+nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
+os.makedirs(nltk_data_dir, exist_ok=True)
+nltk.data.path.insert(0, nltk_data_dir)
+
+# Download all required resources
+for resource in ['punkt', 'punkt_tab', 'averaged_perceptron_tagger']:
+    try:
+        nltk.download(resource, download_dir=nltk_data_dir, quiet=True)
+    except Exception:
+        pass
 
 import streamlit as st
 
 # Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
 
 from src.classifier import ReproducibilityClassifier
 from src.explainer import SHAPExplainer
