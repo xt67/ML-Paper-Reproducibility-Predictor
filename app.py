@@ -7,6 +7,11 @@ A web interface to analyze ML papers for reproducibility.
 import sys
 from pathlib import Path
 
+# Download NLTK data before importing modules that need it
+import nltk
+nltk.download('punkt', quiet=True)
+nltk.download('punkt_tab', quiet=True)
+
 import streamlit as st
 
 # Add project root to path
