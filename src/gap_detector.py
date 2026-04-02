@@ -13,6 +13,10 @@ from sentence_transformers import SentenceTransformer, util
 
 # Download NLTK punkt tokenizer if not already present
 try:
+    nltk.data.find("tokenizers/punkt_tab")
+except LookupError:
+    nltk.download("punkt_tab", quiet=True)
+try:
     nltk.data.find("tokenizers/punkt")
 except LookupError:
     nltk.download("punkt", quiet=True)
