@@ -8,20 +8,23 @@ import sys
 import os
 from pathlib import Path
 
-# Download ALL NLTK data before importing modules that need it
+# Configure NLTK before any imports
 import nltk
 
-# Set NLTK data path to a writable location
-nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
-os.makedirs(nltk_data_dir, exist_ok=True)
-nltk.data.path.insert(0, nltk_data_dir)
+# Try to download NLTK resources - use both punkt and punkt_tab for compatibility
+def ensure_nltk_data():
+    """Ensure NLTK data is available."""
+    resources = ['punkt', 'punkt_tab']
+    for resource in resources:
+        try:
+            nltk.data.find(f'tokenizers/{resource}')
+        except LookupError:
+            try:
+                nltk.download(resource, quiet=True)
+            except Exception:
+                pass  # Some resources may not exist in all versions
 
-# Download all required resources
-for resource in ['punkt', 'punkt_tab', 'averaged_perceptron_tagger']:
-    try:
-        nltk.download(resource, download_dir=nltk_data_dir, quiet=True)
-    except Exception:
-        pass
+ensure_nltk_data()
 
 import streamlit as st
 

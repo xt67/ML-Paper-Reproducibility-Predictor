@@ -5,20 +5,32 @@ Sentence-level attribution using leave-one-out ablation.
 
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Optional
 
-import nltk
 
-# Ensure punkt tokenizer is available
-try:
-    nltk.data.find('tokenizers/punkt_tab')
-except LookupError:
-    nltk.download('punkt_tab', quiet=True)
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', quiet=True)
+def simple_sent_tokenize(text: str) -> list[str]:
+    """Simple sentence tokenizer as fallback."""
+    sentences = re.split(r'(?<=[.!?])\s+', text.strip())
+    return [s.strip() for s in sentences if s.strip()]
+
+
+def sent_tokenize(text: str) -> list[str]:
+    """Tokenize text into sentences with NLTK fallback."""
+    try:
+        import nltk
+        for resource in ['punkt', 'punkt_tab']:
+            try:
+                nltk.data.find(f'tokenizers/{resource}')
+            except LookupError:
+                try:
+                    nltk.download(resource, quiet=True)
+                except Exception:
+                    pass
+        return nltk.sent_tokenize(text)
+    except Exception:
+        return simple_sent_tokenize(text)
 
 
 class SHAPExplainer:
@@ -93,7 +105,7 @@ class SHAPExplainer:
             return cached
         
         # Split into sentences
-        sentences = nltk.sent_tokenize(text)
+        sentences = sent_tokenize(text)
         
         if len(sentences) == 0:
             result = {

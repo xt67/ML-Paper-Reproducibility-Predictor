@@ -4,22 +4,39 @@ Identifies missing reproducibility checklist items using sentence-transformer si
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Optional
 
-import nltk
 import numpy as np
 from sentence_transformers import SentenceTransformer, util
 
-# Download NLTK punkt tokenizer if not already present
-try:
-    nltk.data.find("tokenizers/punkt_tab")
-except LookupError:
-    nltk.download("punkt_tab", quiet=True)
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", quiet=True)
+
+def simple_sent_tokenize(text: str) -> list[str]:
+    """Simple sentence tokenizer as fallback."""
+    # Split on sentence-ending punctuation followed by space or end
+    sentences = re.split(r'(?<=[.!?])\s+', text.strip())
+    return [s.strip() for s in sentences if s.strip()]
+
+
+def sent_tokenize(text: str) -> list[str]:
+    """Tokenize text into sentences with NLTK fallback."""
+    try:
+        import nltk
+        # Try downloading resources
+        for resource in ['punkt', 'punkt_tab']:
+            try:
+                nltk.data.find(f'tokenizers/{resource}')
+            except LookupError:
+                try:
+                    nltk.download(resource, quiet=True)
+                except Exception:
+                    pass
+        return nltk.sent_tokenize(text)
+    except Exception:
+        # Fallback to simple regex-based tokenizer
+        return simple_sent_tokenize(text)
+
 
 # Configuration
 SIMILARITY_THRESHOLD = 0.35  # Below this = item is missing
@@ -91,7 +108,7 @@ class GapDetector:
             }
         """
         # Split text into sentences
-        sentences = nltk.sent_tokenize(methods_text)
+        sentences = sent_tokenize(methods_text)
         
         if not sentences:
             # Return all items as missing if no sentences
