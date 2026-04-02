@@ -1,3 +1,12 @@
+# GSD Planning (local only)
+.planning/
+.cache/
+skills/
+scripts/ralph/
+prd.json
+MILESTONE-AUDIT.md
+CLAUDE.md
+
 # Python
 __pycache__/
 *.py[cod]
