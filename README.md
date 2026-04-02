@@ -1,6 +1,19 @@
+---
+title: ML Paper Reproducibility Predictor
+emoji: 🔬
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+sdk_version: "1.32.0"
+python_version: "3.11"
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # ML Paper Reproducibility Predictor
 
-🔬 **[Try it live on HuggingFace Spaces](https://huggingface.co/spaces/xt67/reproducibility-predictor)**
+🔬 **[Try it live on HuggingFace Spaces](https://huggingface.co/spaces/xrahman/ML-Paper-Reproducibility-Predictor)**
 
 A web tool that analyzes the methods section of ML/AI research papers and outputs:
 1. **Reproducibility Score** (0-100) — how likely is this paper to be reproducible?
