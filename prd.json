@@ -144,7 +144,7 @@
         "CORS enabled for frontend"
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "notes": "Week 5 deliverable. Backend infrastructure."
     },
     {
@@ -161,7 +161,7 @@
         "Loading spinner during analysis"
       ],
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "notes": "Week 5 deliverable. User-facing interface."
     },
     {
@@ -176,7 +176,7 @@
         "Add README with demo screenshots"
       ],
       "priority": 11,
-      "passes": false,
+      "passes": true,
       "notes": "Week 6 deliverable. Final deployment."
     },
     {
@@ -191,7 +191,7 @@
         "Resume bullet: quantified metrics, tech stack, live URL"
       ],
       "priority": 12,
-      "passes": false,
+      "passes": true,
       "notes": "Week 6 deliverable. Portfolio and publication."
     }
   ]
